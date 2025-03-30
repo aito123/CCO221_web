@@ -1,0 +1,20 @@
+project:
+  type: website
+
+website:
+  title: "CCO221 - Métodos y técnicas de investigación 1"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Acerca de
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true
+
+editor: visual
+

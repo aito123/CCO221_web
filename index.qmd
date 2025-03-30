@@ -1,0 +1,5 @@
+---
+title: "Acerca de"
+---
+
+En esta página podrás encontrar recursos para las clases de programación del curso.

@@ -1,5 +1,19 @@
 [
   {
+    "objectID": "clasep2.html",
+    "href": "clasep2.html",
+    "title": "Clase práctica 2",
+    "section": "",
+    "text": "intro al r\npaquetes\nimportacion de data\nexploracion de data\nmanipulacion de data\nTablas de frecuencia\nexportacion de data\nVisualización de datos: ggplot2, plotly\nintro al rmd\n\nformatos de output: html, pdf, word\nCombinando texto, tablas, gráficos\nResultado: elaboración de reportes"
+  },
+  {
+    "objectID": "clasep2.html#temas",
+    "href": "clasep2.html#temas",
+    "title": "Clase práctica 2",
+    "section": "",
+    "text": "intro al r\npaquetes\nimportacion de data\nexploracion de data\nmanipulacion de data\nTablas de frecuencia\nexportacion de data\nVisualización de datos: ggplot2, plotly\nintro al rmd\n\nformatos de output: html, pdf, word\nCombinando texto, tablas, gráficos\nResultado: elaboración de reportes"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Acerca de",

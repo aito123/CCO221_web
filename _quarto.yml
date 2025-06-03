@@ -7,6 +7,10 @@ website:
     left:
       - href: index.qmd
         text: Acerca de
+      - text: Clases prácticas
+        menu: 
+          - href: clasep2.qmd
+            text: Clase práctica 2
 
 format:
   html:

@@ -66,6 +66,11 @@ install.packages("pacman")
 pacman::p_load(tidyverse, rio)
 ```
 
+::: {.column-margin}
+La función `p_load()` del paquete `{pacman}` se utiliza para importar paquetes desde el repositorio virtual CRAN.
+
+:::
+
 # Importación de data
 
 En esta clase, se importa la base de datos `filmaffinity` que contiene información sobre filmes publicados entre 1900 y 2020. Para mayor información revise el [enlace](https://www.kaggle.com/datasets/gan2gan/filmaffinity-dataset-spanish).
@@ -73,6 +78,11 @@ En esta clase, se importa la base de datos `filmaffinity` que contiene informaci
 ```{r}
 filmaffinity <- rio::import("data/filmaffinity_dataset.xlsx")
 ```
+
+::: {.column-margin}
+La función `import()` del paquete `{rio}` se utiliza para importar bases de datos en distintos formatos como `.xlsx`, `.csv`, `.sav`, entre otras.
+
+:::
 
 # Exploración de data
 
@@ -140,7 +150,7 @@ tab1
 
 El promedio de los filmes, considerando los puntuados, para el caso de miniserie es de 6.10.
 
-En el caso de Estados Unidos, si se genera la misma tabla de frecuencias, se obtendría el seiguiente resultado:
+En el caso de Estados Unidos, si se genera la misma tabla de frecuencias, se obtendría el siguiente resultado:
 
 ```{r}
 tab2 <- 
@@ -163,6 +173,11 @@ Finalmente, para exportar la tabla inicial sobre la nota promedio de los filmes 
 tab1 %>% 
   rio::export("data/tab1.xlsx")
 ```
+
+::: {.column-margin}
+La función `export()` del paquete `{rio}` se utiliza para exportar bases de datos en distintos formatos como `.xlsx`, `.csv`, `.sav`, entre otras.
+
+:::
 
 Usaremos el mismo procedimiento para exportar la base que limpiamos:
 

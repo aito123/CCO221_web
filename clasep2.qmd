@@ -5,15 +5,16 @@ format: html
 
 ## Temas
 
-  -   intro al r
-  -   paquetes
-  -   importacion de data
-  -   exploracion de data
-  -   manipulacion de data
-  -   Tablas de frecuencia
-  -   exportacion de data
-  -   Visualización de datos: ggplot2, plotly
-  -   intro al rmd
-      -   formatos de output: html, pdf, word
-      -   Combinando texto, tablas, gráficos
-      -   Resultado: elaboración de reportes
+-   intro al r
+-   paquetes
+-   importación de data
+-   exploración de data
+-   manipulación de data
+-   Tablas de frecuencia
+-   exportacion de data
+-   Visualización de datos: ggplot2, plotly
+-   intro al rmd
+    -   formatos de output: html, pdf, word
+    -   Combinando texto, tablas, gráficos
+    -   Resultado: elaboración de reportes
+- este es un cambio drástico

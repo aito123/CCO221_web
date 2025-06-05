@@ -138,11 +138,26 @@ tab1 <-
 tab1
 ```
 
-El promedio de los filmes, considerando los puntuados, para el caso de miniserie es de 6.1.
+El promedio de los filmes, considerando los puntuados, para el caso de miniserie es de 6.10.
+
+En el caso de Estados Unidos, si se genera la misma tabla de frecuencias, se obtendría el seiguiente resultado:
+
+```{r}
+tab2 <- 
+  filmaffinity3 %>% 
+  filter(País %in% c("Estados Unidos")) %>% # <1>
+  group_by(`Tipo filme`) %>% 
+  summarise(Nota_promedio = mean(Nota, na.rm =T))
+tab2
+```
+
+1. Se filtra el valor `"Estados Unidos"` en la variable `País`.
+
+Se observa que, para el caso de miniseries, descendió a 5.99.
 
 # Exportación de data
 
-Finalmente, para exportar la tabla sobre la nota promedio de los filmes a excel se puede utilizar la siguiente función del paquete `{rio}`:
+Finalmente, para exportar la tabla inicial sobre la nota promedio de los filmes a excel se puede utilizar la siguiente función del paquete `{rio}`:
 
 ```{r}
 tab1 %>% 

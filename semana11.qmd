@@ -4,6 +4,7 @@ author: "Santiago Sotelo y Nadia Duffó"
 format: html
 execute: 
   echo: true
+  message: false
 df-print: paged
 code-annotations: hover
 ---
@@ -44,9 +45,9 @@ str(df)
 
 ## Gráfico de barras
 
-¿Qué variable podemos representar con un gráfico de barras?
+### ¿Qué variable podemos representar con un gráfico de barras?
 
-Antes de empezar a graficar, crearemos una tabla de frecuencias y porcentajes con **count** y **mutate**, como ya hemos aprendido. Esta tabla será usada con las funciones del paquete **ggplot2**. Este paquete trabaja con capas que van añadiendo configuraciones o elementos al gráfico. Probaremos primero una fórmula básica para generar gráficos de barras. Conectaremos cada capa con el símbolo `+`.
+Antes de empezar a graficar, crearemos una tabla de frecuencias y porcentajes con `count` y `mutate`, como ya hemos aprendido. Esta tabla será usada con las funciones del paquete `{ggplot2}`. Este paquete trabaja con capas que van añadiendo configuraciones o elementos al gráfico. Probaremos primero una fórmula básica para generar gráficos de barras. Conectaremos cada capa con el símbolo `+`.
 
 ```{r}
 tab_bars <- df %>%
@@ -57,7 +58,7 @@ ggplot(tab_bars, aes(x = `Tipo filme`, y = pct)) + # <1>
   geom_col() # <2>
 ```
 
-1.  En la función `ggplot` ingresamos la `data` (tab_bars) y los elementos que deseamos graficar en `aes`. 
+1.  En la función `ggplot` existe el argumento `data` donde ingresaremos nuestro objeto `tab_bars.` Los elementos que deseamos graficar irán en la función `aes`. 
 2.  Indicamos el tipo de gráfico con `geom_col()`.
 
 Probemos añadir más capas tener una gráfico más presentable.
@@ -76,7 +77,7 @@ ggplot(tab_bars, aes(x = `Tipo filme`, y = pct)) + # <1>
 3.  Con `labs` (abreviatura de labels), indicamos etiquetas para el título y ejes x e y.
 4.  `theme_minimal` nos da una visualización más limpia quitando el fondo gris.
 
-La posibilidad de combinaciones es prácticamente infinita.
+La versatilidad de `{ggplot2}` nos permite personalizar distintas combinaciones.
 
 ```{r}
 ggplot(tab_bars, aes(x = `Tipo filme`, y = pct, fill = `Tipo filme`)) + # <1>
@@ -105,7 +106,9 @@ df2 <- df %>%
                      Nota >= 5 ~ "5 a más",
                      is.na(Nota) ~ "Sin nota"),
          Nota_cat = # <2>
-           factor(Nota_cat, levels = c("Sin nota", "5 a más", "Menos de 5")))
+           factor(Nota_cat, 
+                  levels = c("Sin nota", "5 a más", "Menos de 5"),
+                  ordered = TRUE))
 
 tab_bars2 <- df2 %>%
   group_by(`Tipo filme`) %>% # <3>
@@ -136,7 +139,7 @@ ggplot(tab_bars2, aes(x = `Tipo filme`, y = pct, fill = Nota_cat)) + # <4>
 
 ¿Qué variable podemos representar con un histograma?
 
-```{r, message = FALSE}
+```{r}
 ggplot(df, aes(x = Año)) + # <1>
   geom_histogram(fill = "steelblue") + # <2>
   labs(title = "Gráfico 2: Año de estreño de filmes", # <3>
@@ -155,7 +158,7 @@ Una capa que nos permite cruzar la información para una visualización desagreg
 ```{r}
 ggplot(df, aes(x = Año)) + # <1>
   geom_histogram(fill = "steelblue") + # <2>
-  facet_wrap(~ `Tipo filme`, scales = "free") +  # <3> Divide en facetas por grupo
+  facet_wrap(~ `Tipo filme`, scales = "free") +  # <3> 
   labs(title = "Gráfico 2: Año de estreño de filmes", # <4>
        x = "Año",
        y = "Cantidad") +
@@ -170,11 +173,11 @@ ggplot(df, aes(x = Año)) + # <1>
 
 ## Box Plot
 
-¿Qué variable podemos representar con un **box plot**?
+¿Qué variable podemos representar con un *box plot*?
 
 ```{r}
-ggplot(df2, aes(y = Nota, x = `Tipo filme`)) + # <1>
-  geom_boxplot() # <2>
+ggplot(df2, aes(y = Nota, x = `Tipo filme`, fill = `Tipo filme`)) + # <1>
+  geom_boxplot(show.legend = F) # <2>
 ```
 
 1.  En la función `ggplot` ingresamos la `data` (tab_bars) y los elementos que deseamos graficar en `aes`.

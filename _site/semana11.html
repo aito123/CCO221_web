@@ -138,6 +138,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./semana10.html">
  <span class="dropdown-text">Semana 10</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./semana11.html">
+ <span class="dropdown-text">Semana 11</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -161,7 +165,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#cargar-paquetes" id="toc-cargar-paquetes" class="nav-link" data-scroll-target="#cargar-paquetes">Cargar paquetes</a></li>
   <li><a href="#importación-de-data" id="toc-importación-de-data" class="nav-link" data-scroll-target="#importación-de-data">Importación de data</a></li>
   <li><a href="#exploración-de-data" id="toc-exploración-de-data" class="nav-link" data-scroll-target="#exploración-de-data">Exploración de data</a></li>
-  <li><a href="#gráfico-de-barras" id="toc-gráfico-de-barras" class="nav-link" data-scroll-target="#gráfico-de-barras">Gráfico de barras</a></li>
+  <li><a href="#gráfico-de-barras" id="toc-gráfico-de-barras" class="nav-link" data-scroll-target="#gráfico-de-barras">Gráfico de barras</a>
+  <ul class="collapse">
+  <li><a href="#qué-variable-podemos-representar-con-un-gráfico-de-barras" id="toc-qué-variable-podemos-representar-con-un-gráfico-de-barras" class="nav-link" data-scroll-target="#qué-variable-podemos-representar-con-un-gráfico-de-barras">¿Qué variable podemos representar con un gráfico de barras?</a></li>
+  </ul></li>
   <li><a href="#histograma" id="toc-histograma" class="nav-link" data-scroll-target="#histograma">Histograma</a></li>
   <li><a href="#box-plot" id="toc-box-plot" class="nav-link" data-scroll-target="#box-plot">Box Plot</a></li>
   </ul></li>
@@ -247,8 +254,9 @@ Material para el ejercicio
 </section>
 <section id="gráfico-de-barras" class="level2">
 <h2 class="anchored" data-anchor-id="gráfico-de-barras">Gráfico de barras</h2>
-<p>¿Qué variable podemos representar con un gráfico de barras?</p>
-<p>Antes de empezar a graficar, crearemos una tabla de frecuencias y porcentajes con <strong>count</strong> y <strong>mutate</strong>, como ya hemos aprendido. Esta tabla será usada con las funciones del paquete <strong>ggplot2</strong>. Este paquete trabaja con capas que van añadiendo configuraciones o elementos al gráfico. Probaremos primero una fórmula básica para generar gráficos de barras. Conectaremos cada capa con el símbolo <code>+</code>.</p>
+<section id="qué-variable-podemos-representar-con-un-gráfico-de-barras" class="level3">
+<h3 class="anchored" data-anchor-id="qué-variable-podemos-representar-con-un-gráfico-de-barras">¿Qué variable podemos representar con un gráfico de barras?</h3>
+<p>Antes de empezar a graficar, crearemos una tabla de frecuencias y porcentajes con <code>count</code> y <code>mutate</code>, como ya hemos aprendido. Esta tabla será usada con las funciones del paquete <code>{ggplot2}</code>. Este paquete trabaja con capas que van añadiendo configuraciones o elementos al gráfico. Probaremos primero una fórmula básica para generar gráficos de barras. Conectaremos cada capa con el símbolo <code>+</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>tab_bars <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
 <span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="st">`</span><span class="at">Tipo filme</span><span class="st">`</span>) <span class="sc">%&gt;%</span> </span>
@@ -260,7 +268,7 @@ Material para el ejercicio
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="5" data-code-annotation="1">En la función <code>ggplot</code> ingresamos la <code>data</code> (tab_bars) y los elementos que deseamos graficar en <code>aes</code>.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="5" data-code-annotation="1">En la función <code>ggplot</code> existe el argumento <code>data</code> donde ingresaremos nuestro objeto <code>tab_bars.</code> Los elementos que deseamos graficar irán en la función <code>aes</code>.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
 <dd>
@@ -312,7 +320,7 @@ Material para el ejercicio
 </div>
 </div>
 </div>
-<p>La posibilidad de combinaciones es prácticamente infinita.</p>
+<p>La versatilidad de <code>{ggplot2}</code> nos permite personalizar distintas combinaciones.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1">1</button><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tab_bars, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Tipo filme</span><span class="st">`</span>, <span class="at">y =</span> pct, <span class="at">fill =</span> <span class="st">`</span><span class="at">Tipo filme</span><span class="st">`</span>)) <span class="sc">+</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2">2</button><span id="annotated-cell-6-2" class="code-annotation-target"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
@@ -366,21 +374,23 @@ Material para el ejercicio
 <span id="annotated-cell-7-4"><a href="#annotated-cell-7-4" aria-hidden="true" tabindex="-1"></a>                     Nota <span class="sc">&gt;=</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"5 a más"</span>,</span>
 <span id="annotated-cell-7-5"><a href="#annotated-cell-7-5" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">is.na</span>(Nota) <span class="sc">~</span> <span class="st">"Sin nota"</span>),</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2">2</button><span id="annotated-cell-7-6" class="code-annotation-target"><a href="#annotated-cell-7-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">Nota_cat =</span></span>
-<span id="annotated-cell-7-7"><a href="#annotated-cell-7-7" aria-hidden="true" tabindex="-1"></a>           <span class="fu">factor</span>(Nota_cat, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Sin nota"</span>, <span class="st">"5 a más"</span>, <span class="st">"Menos de 5"</span>)))</span>
-<span id="annotated-cell-7-8"><a href="#annotated-cell-7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-7-9"><a href="#annotated-cell-7-9" aria-hidden="true" tabindex="-1"></a>tab_bars2 <span class="ot">&lt;-</span> df2 <span class="sc">%&gt;%</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3">3</button><span id="annotated-cell-7-10" class="code-annotation-target"><a href="#annotated-cell-7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="st">`</span><span class="at">Tipo filme</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
-<span id="annotated-cell-7-11"><a href="#annotated-cell-7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Nota_cat) <span class="sc">%&gt;%</span> </span>
-<span id="annotated-cell-7-12"><a href="#annotated-cell-7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pct =</span> <span class="fu">round</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">0</span>))</span>
-<span id="annotated-cell-7-13"><a href="#annotated-cell-7-13" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="4">4</button><span id="annotated-cell-7-14" class="code-annotation-target"><a href="#annotated-cell-7-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tab_bars2, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Tipo filme</span><span class="st">`</span>, <span class="at">y =</span> pct, <span class="at">fill =</span> Nota_cat)) <span class="sc">+</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="5">5</button><span id="annotated-cell-7-15" class="code-annotation-target"><a href="#annotated-cell-7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="6">6</button><span id="annotated-cell-7-16" class="code-annotation-target"><a href="#annotated-cell-7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Gráfico 1: Tipo de filme (%)"</span>,</span>
-<span id="annotated-cell-7-17"><a href="#annotated-cell-7-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Tipo de filme"</span>,</span>
-<span id="annotated-cell-7-18"><a href="#annotated-cell-7-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Porcentaje"</span>) <span class="sc">+</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="7">7</button><span id="annotated-cell-7-19" class="code-annotation-target"><a href="#annotated-cell-7-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> pct), <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="8">8</button><span id="annotated-cell-7-20" class="code-annotation-target"><a href="#annotated-cell-7-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="9">9</button><span id="annotated-cell-7-21" class="code-annotation-target"><a href="#annotated-cell-7-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Set3"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="annotated-cell-7-7"><a href="#annotated-cell-7-7" aria-hidden="true" tabindex="-1"></a>           <span class="fu">factor</span>(Nota_cat, </span>
+<span id="annotated-cell-7-8"><a href="#annotated-cell-7-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Sin nota"</span>, <span class="st">"5 a más"</span>, <span class="st">"Menos de 5"</span>),</span>
+<span id="annotated-cell-7-9"><a href="#annotated-cell-7-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ordered =</span> <span class="cn">TRUE</span>))</span>
+<span id="annotated-cell-7-10"><a href="#annotated-cell-7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-7-11"><a href="#annotated-cell-7-11" aria-hidden="true" tabindex="-1"></a>tab_bars2 <span class="ot">&lt;-</span> df2 <span class="sc">%&gt;%</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3">3</button><span id="annotated-cell-7-12" class="code-annotation-target"><a href="#annotated-cell-7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="st">`</span><span class="at">Tipo filme</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="annotated-cell-7-13"><a href="#annotated-cell-7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Nota_cat) <span class="sc">%&gt;%</span> </span>
+<span id="annotated-cell-7-14"><a href="#annotated-cell-7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pct =</span> <span class="fu">round</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">0</span>))</span>
+<span id="annotated-cell-7-15"><a href="#annotated-cell-7-15" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="4">4</button><span id="annotated-cell-7-16" class="code-annotation-target"><a href="#annotated-cell-7-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(tab_bars2, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Tipo filme</span><span class="st">`</span>, <span class="at">y =</span> pct, <span class="at">fill =</span> Nota_cat)) <span class="sc">+</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="5">5</button><span id="annotated-cell-7-17" class="code-annotation-target"><a href="#annotated-cell-7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="6">6</button><span id="annotated-cell-7-18" class="code-annotation-target"><a href="#annotated-cell-7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Gráfico 1: Tipo de filme (%)"</span>,</span>
+<span id="annotated-cell-7-19"><a href="#annotated-cell-7-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Tipo de filme"</span>,</span>
+<span id="annotated-cell-7-20"><a href="#annotated-cell-7-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Porcentaje"</span>) <span class="sc">+</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="7">7</button><span id="annotated-cell-7-21" class="code-annotation-target"><a href="#annotated-cell-7-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> pct), <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="8">8</button><span id="annotated-cell-7-22" class="code-annotation-target"><a href="#annotated-cell-7-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="9">9</button><span id="annotated-cell-7-23" class="code-annotation-target"><a href="#annotated-cell-7-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Set3"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
@@ -393,31 +403,31 @@ Material para el ejercicio
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="10" data-code-annotation="3">Creamos nuestra tabla y añadimos la función <code>group_by</code> para calcular las frecuencias de <code>Nota_cat</code> dentro de cada tipo de filme.</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="12" data-code-annotation="3">Creamos nuestra tabla y añadimos la función <code>group_by</code> para calcular las frecuencias de <code>Nota_cat</code> dentro de cada tipo de filme.</span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="14" data-code-annotation="4">En la función <code>ggplot</code> ingresamos la <code>data</code> (tab_bars) y los elementos que deseamos graficar en <code>aes</code>. Añadimos en <code>aes</code> el argumento <code>fill</code> para colorear individualmente cada categoría de <code>Nota_cat</code>.</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="16" data-code-annotation="4">En la función <code>ggplot</code> ingresamos la <code>data</code> (tab_bars) y los elementos que deseamos graficar en <code>aes</code>. Añadimos en <code>aes</code> el argumento <code>fill</code> para colorear individualmente cada categoría de <code>Nota_cat</code>.</span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="15" data-code-annotation="5">Indicamos el tipo de gráfico con <code>geom_col()</code>.</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="17" data-code-annotation="5">Indicamos el tipo de gráfico con <code>geom_col()</code>.</span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="16" data-code-annotation="6">Con <code>labs</code> (abreviatura de labels), indicamos etiquetas para el título y ejes x e y.</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="18" data-code-annotation="6">Con <code>labs</code> (abreviatura de labels), indicamos etiquetas para el título y ejes x e y.</span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="7">7</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="19" data-code-annotation="7"><code>geom_text</code> sirve para colocar las etiquetas de los valores.</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="21" data-code-annotation="7"><code>geom_text</code> sirve para colocar las etiquetas de los valores.</span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="8">8</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="20" data-code-annotation="8"><code>theme_minimal</code> nos da una visualización más limpia quitando el fondo gris.</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="22" data-code-annotation="8"><code>theme_minimal</code> nos da una visualización más limpia quitando el fondo gris.</span>
 </dd>
 <dt data-target-cell="annotated-cell-7" data-target-annotation="9">9</dt>
 <dd>
-<span data-code-cell="annotated-cell-7" data-code-lines="21" data-code-annotation="9">En <code>scale_fill_brewer</code> indicamos una paleta de colores para usar.</span>
+<span data-code-cell="annotated-cell-7" data-code-lines="23" data-code-annotation="9">En <code>scale_fill_brewer</code> indicamos una paleta de colores para usar.</span>
 </dd>
 </dl>
 </div>
@@ -429,6 +439,7 @@ Material para el ejercicio
 </div>
 </div>
 </div>
+</section>
 </section>
 <section id="histograma" class="level2">
 <h2 class="anchored" data-anchor-id="histograma">Histograma</h2>
@@ -460,6 +471,9 @@ Material para el ejercicio
 </dd>
 </dl>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -472,7 +486,7 @@ Material para el ejercicio
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-9"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="1">1</button><span id="annotated-cell-9-1" class="code-annotation-target"><a href="#annotated-cell-9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> Año)) <span class="sc">+</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="2">2</button><span id="annotated-cell-9-2" class="code-annotation-target"><a href="#annotated-cell-9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
-<span id="annotated-cell-9-3"><a href="#annotated-cell-9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> <span class="st">`</span><span class="at">Tipo filme</span><span class="st">`</span>, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span>  <span class="co"># &lt;3&gt; Divide en facetas por grupo</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="3">3</button><span id="annotated-cell-9-3" class="code-annotation-target"><a href="#annotated-cell-9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> <span class="st">`</span><span class="at">Tipo filme</span><span class="st">`</span>, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="4">4</button><span id="annotated-cell-9-4" class="code-annotation-target"><a href="#annotated-cell-9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Gráfico 2: Año de estreño de filmes"</span>,</span>
 <span id="annotated-cell-9-5"><a href="#annotated-cell-9-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Año"</span>,</span>
 <span id="annotated-cell-9-6"><a href="#annotated-cell-9-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Cantidad"</span>) <span class="sc">+</span></span>
@@ -486,6 +500,10 @@ Material para el ejercicio
 <dt data-target-cell="annotated-cell-9" data-target-annotation="2">2</dt>
 <dd>
 <span data-code-cell="annotated-cell-9" data-code-lines="2" data-code-annotation="2">Indicamos el tipo de gráfico con <code>geom_histogram()</code>. Agregamos el argumento <code>fill</code> para indicar el color que rellenará las barras.</span>
+</dd>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="3" data-code-annotation="3">Divide en facetas por grupo. Colocamos la variable de grupos después del símbolo <code>~</code>.</span>
 </dd>
 <dt data-target-cell="annotated-cell-9" data-target-annotation="4">4</dt>
 <dd>
@@ -511,10 +529,10 @@ Material para el ejercicio
 </section>
 <section id="box-plot" class="level2">
 <h2 class="anchored" data-anchor-id="box-plot">Box Plot</h2>
-<p>¿Qué variable podemos representar con un <strong>box plot</strong>?</p>
+<p>¿Qué variable podemos representar con un <em>box plot</em>?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1">1</button><span id="annotated-cell-10-1" class="code-annotation-target"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df2, <span class="fu">aes</span>(<span class="at">y =</span> Nota, <span class="at">x =</span> <span class="st">`</span><span class="at">Tipo filme</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2">2</button><span id="annotated-cell-10-2" class="code-annotation-target"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1">1</button><span id="annotated-cell-10-1" class="code-annotation-target"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df2, <span class="fu">aes</span>(<span class="at">y =</span> Nota, <span class="at">x =</span> <span class="st">`</span><span class="at">Tipo filme</span><span class="st">`</span>, <span class="at">fill =</span> <span class="st">`</span><span class="at">Tipo filme</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2">2</button><span id="annotated-cell-10-2" class="code-annotation-target"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">show.legend =</span> F)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>

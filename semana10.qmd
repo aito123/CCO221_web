@@ -8,6 +8,14 @@ df-print: paged
 code-annotations: hover
 ---
 
+:::{.callout-note}
+
+## Material para el ejercicio
+
+Descarga la carpeta .zip para acceder al material de esta sesión. Haga click en el siguiente [enlace](). No olvides unzipear el archivo.
+
+:::
+
 # Introducción
 
 ¿Cómo funciona R?
@@ -25,7 +33,7 @@ gsub("a", "A", paste("mi", supermercado))
 
 Se podría comparar con una *matrioska* o muñeca rusa en la medida en que una función encapsula a otra función y así sucesivamente ejecutándose de adentro hacia afuera.
 
-La manera moderna de programar en R es utilizando el operador %\>% o pipeta. El mismo ejemplo se vería así:
+La manera moderna de programar en R es utilizando el operador `%>%` o pipeta. El mismo ejemplo se vería así:
 
 ```{r message=FALSE}
 library(dplyr)
@@ -43,11 +51,11 @@ En la práctica utilizaremos una combinación de la manera tradicional y moderna
 
 Para iniciar un proyecto de R nos dirigiremos a la pestaña
 
-`File < New Project < New Directory < New Project < Create Project`
+`File > New Project > New Directory > New Project > Create Project`
 
 Luego creamos un nuevo archivo R markdown (`.Rmd`), nos dirigimos a la pestaña
 
-`File < New File < R Markdown < Ok`
+`File > New File > R Markdown > Ok`
 
 Para crear un bloque de código en R podemos hacer click en el ícono verde con la letra C en la barra superior o utilizar el atajo `ctrl` + `alt` + `i`
 

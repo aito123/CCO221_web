@@ -11,15 +11,16 @@ website:
         menu: 
           - href: semana10.qmd
             text: Semana 10
-            
 
 format:
   html:
+    lang: es
     theme:
       - cosmo
       - brand
     css: styles.css
     toc: true
 
-editor: visual
+execute: 
+  freeze: auto # re-render only when source changes
 

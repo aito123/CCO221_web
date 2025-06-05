@@ -149,6 +149,13 @@ tab1 %>%
   rio::export("data/tab1.xlsx")
 ```
 
+Usaremos el mismo procedimiento para exportar la base que limpiamos:
+
+```{r}
+filmaffinity3 %>% 
+  rio::export("data/filmaffinity_dataset_limpio.xlsx")
+```
+
 # Ejercicio final
 
 Responda las siguientes preguntas:

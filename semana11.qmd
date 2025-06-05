@@ -1,0 +1,201 @@
+---
+title: "Clase práctica Semana 11"
+author: "Santiago Sotelo y Nadia Duffó"
+format: html
+execute: 
+  echo: true
+df-print: paged
+code-annotations: hover
+---
+
+:::{.callout-note}
+
+## Material para el ejercicio
+
+Descarga la carpeta .zip para acceder al material de esta sesión. Haga click en el siguiente [enlace](https://downgit.github.io/#/home?url=https://github.com/aito123/CCO221_web/tree/master/semana11_material). No olvides unzipear el archivo.
+
+:::
+
+# Gráficar en R
+
+Usaremos el paquete ggplot 2 para generar distintos tipos de gráficos:
+- Gráfico de barras
+- Histograma
+- Boxplot
+
+Primero, preparamos todos los insumos que necesitaremos y ya conocemos (carga de paquetes, importación de data y tabulación de resultados)
+
+## Cargar paquetes
+
+```{r}
+pacman::p_load(rio, dplyr, ggplot2)
+```
+
+## Importación de data
+
+```{r}
+df <- import("data/filmaffinity_dataset_limpio.xlsx")
+```
+
+## Exploración de data
+```{r}
+str(df)
+```
+
+## Gráfico de barras
+
+¿Qué variable podemos representar con un gráfico de barras?
+
+Antes de empezar a graficar, crearemos una tabla de frecuencias y porcentajes con **count** y **mutate**, como ya hemos aprendido. Esta tabla será usada con las funciones del paquete **ggplot2**. Este paquete trabaja con capas que van añadiendo configuraciones o elementos al gráfico. Probaremos primero una fórmula básica para generar gráficos de barras. Conectaremos cada capa con el símbolo `+`.
+
+```{r}
+tab_bars <- df %>%
+  count(`Tipo filme`) %>% 
+  mutate(pct = n / sum(n) * 100)
+
+ggplot(tab_bars, aes(x = `Tipo filme`, y = pct)) + # <1>
+  geom_col() # <2>
+```
+
+1.  En la función `ggplot` ingresamos la `data` (tab_bars) y los elementos que deseamos graficar en `aes`. 
+2.  Indicamos el tipo de gráfico con `geom_col()`.
+
+Probemos añadir más capas tener una gráfico más presentable.
+
+```{r}
+ggplot(tab_bars, aes(x = `Tipo filme`, y = pct)) + # <1>
+  geom_col(fill = "steelblue") + # <2>
+  labs(title = "Gráfico 1: Tipo de filme (%)", # <3>
+       x = "Tipo de filme",
+       y = "Porcentaje") +
+  theme_minimal() # <4>
+```
+
+1.  En la función `ggplot` ingresamos la `data` (tab_bars) y los elementos que deseamos graficar en `aes`. 
+2.  Indicamos el tipo de gráfico con `geom_col()`. Agregamos el argumento `fill` para indicar el color que rellenará las barras.
+3.  Con `labs` (abreviatura de labels), indicamos etiquetas para el título y ejes x e y.
+4.  `theme_minimal` nos da una visualización más limpia quitando el fondo gris.
+
+La posibilidad de combinaciones es prácticamente infinita.
+
+```{r}
+ggplot(tab_bars, aes(x = `Tipo filme`, y = pct, fill = `Tipo filme`)) + # <1>
+  geom_col() + # <2>
+  labs(title = "Gráfico 1: Tipo de filme (%)", # <3>
+       x = "Tipo de filme",
+       y = "Porcentaje") +
+  coord_flip() + # <4>
+  theme_minimal() + # <5>
+  scale_fill_brewer(palette = "Set3") # <6>
+```
+
+1.  En la función `ggplot` ingresamos la `data` (tab_bars) y los elementos que deseamos graficar en `aes`. Añadimos en `aes` el argumento `fill` para colorear individualmente cada columna. 
+2.  Indicamos el tipo de gráfico con `geom_col()`.
+3.  Con `labs` (abreviatura de labels), indicamos etiquetas para el título y ejes x e y.
+4.  `coord_flip` gira los ejes para darnos barras horizontales.
+5.  `theme_minimal` nos da una visualización más limpia quitando el fondo gris.
+6.  En `scale_fill_brewer` indicamos una paleta de colores para usar.
+
+También podemos cruzar variables.
+
+```{r}
+df2 <- df %>% 
+  mutate(Nota_cat =  # <1>
+           case_when(Nota < 5 ~ "Menos de 5",
+                     Nota >= 5 ~ "5 a más",
+                     is.na(Nota) ~ "Sin nota"),
+         Nota_cat = # <2>
+           factor(Nota_cat, levels = c("Sin nota", "5 a más", "Menos de 5")))
+
+tab_bars2 <- df2 %>%
+  group_by(`Tipo filme`) %>% # <3>
+  count(Nota_cat) %>% 
+  mutate(pct = round(n / sum(n) * 100, 0))
+
+ggplot(tab_bars2, aes(x = `Tipo filme`, y = pct, fill = Nota_cat)) + # <4>
+  geom_col() + # <5>
+  labs(title = "Gráfico 1: Tipo de filme (%)", # <6>
+       x = "Tipo de filme",
+       y = "Porcentaje") +
+  geom_text(aes(label = pct), position = position_stack(vjust = 0.5)) + # <7>
+  theme_minimal() + # <8>
+  scale_fill_brewer(palette = "Set3") # <9>
+```
+
+1.  Creamos una variable categórica a partir de `Nota` con `mutate` y `case_when`.
+2.  Volvemos nuestra variable `Nota_cat` un factor para ordenar las categorías.
+3.  Creamos nuestra tabla y añadimos la función `group_by` para calcular las frecuencias de `Nota_cat` dentro de cada tipo de filme.
+4.  En la función `ggplot` ingresamos la `data` (tab_bars) y los elementos que deseamos graficar en `aes`. Añadimos en `aes` el argumento `fill` para colorear individualmente cada categoría de `Nota_cat`.
+5.  Indicamos el tipo de gráfico con `geom_col()`.
+6.  Con `labs` (abreviatura de labels), indicamos etiquetas para el título y ejes x e y.
+7.  `geom_text` sirve para colocar las etiquetas de los valores.
+8.  `theme_minimal` nos da una visualización más limpia quitando el fondo gris.
+9.  En `scale_fill_brewer` indicamos una paleta de colores para usar.
+
+## Histograma
+
+¿Qué variable podemos representar con un histograma?
+
+```{r, message = FALSE}
+ggplot(df, aes(x = Año)) + # <1>
+  geom_histogram(fill = "steelblue") + # <2>
+  labs(title = "Gráfico 2: Año de estreño de filmes", # <3>
+       x = "Año",
+       y = "Frecuencia") +
+  theme_minimal() # <4>
+```
+
+1.  En la función `ggplot` ingresamos la `data` (tab_bars) y los elementos que deseamos graficar en `aes` (solamente `x` en este caso).
+2.  Indicamos el tipo de gráfico con `geom_histogram()`. Agregamos el argumento `fill` para indicar el color que rellenará las barras.
+3.  Con `labs` (abreviatura de labels), indicamos etiquetas para el título y ejes x e y.
+4.  `theme_minimal` nos da una visualización más limpia quitando el fondo gris.
+
+Una capa que nos permite cruzar la información para una visualización desagregada es `facet_wrap`.
+
+```{r}
+ggplot(df, aes(x = Año)) + # <1>
+  geom_histogram(fill = "steelblue") + # <2>
+  facet_wrap(~ `Tipo filme`, scales = "free") +  # <3> Divide en facetas por grupo
+  labs(title = "Gráfico 2: Año de estreño de filmes", # <4>
+       x = "Año",
+       y = "Cantidad") +
+  theme_minimal() # <5>
+```
+
+1.  En la función `ggplot` ingresamos la `data` (tab_bars) y los elementos que deseamos graficar en `aes` (solamente `x` en este caso).
+2.  Indicamos el tipo de gráfico con `geom_histogram()`. Agregamos el argumento `fill` para indicar el color que rellenará las barras.
+3. Divide en facetas por grupo. Colocamos la variable de grupos después del símbolo `~`.
+4. Con `labs` (abreviatura de labels), indicamos etiquetas para el título y ejes x e y.
+5. `theme_minimal` nos da una visualización más limpia quitando el fondo gris.
+
+## Box Plot
+
+¿Qué variable podemos representar con un **box plot**?
+
+```{r}
+ggplot(df2, aes(y = Nota, x = `Tipo filme`)) + # <1>
+  geom_boxplot() # <2>
+```
+
+1.  En la función `ggplot` ingresamos la `data` (tab_bars) y los elementos que deseamos graficar en `aes`.
+2.  Indicamos el tipo de gráfico con `geom_boxplot()`.
+
+# Exportación de gráficos
+
+Finalmente, para exportar gráficos, se puede utilizar la siguiente función también en `{ggplot2}`:
+
+```{r}
+plot <- ggplot(df, aes(y = Nota, x = `Tipo filme`)) + # <1>
+  geom_boxplot() # <2>
+
+ggsave("outputs/boxplot.png", plot)
+```
+
+1.  Asignamos el objeto a crear como `plot`. La función `ggplot` ingresamos la `data` (tab_bars) y los elementos que deseamos graficar en `aes`.
+2.  Indicamos el tipo de gráfico con `geom_boxplot()`.
+
+# Ejercicio final
+
+Responde las siguientes preguntas a partir de un gráfico generado con `ggplot2`:
+
+1.  ¿Qué tendencia sigue la producción de películas francesas según el año de lanzamiento?

@@ -1,17 +1,31 @@
 [
   {
+    "objectID": "doc1.html",
+    "href": "doc1.html",
+    "title": "doc1",
+    "section": "",
+    "text": "hola."
+  },
+  {
     "objectID": "clasep2.html",
     "href": "clasep2.html",
     "title": "Clase práctica 2",
     "section": "",
-    "text": "intro al r\npaquetes\nimportacion de data\nexploracion de data\nmanipulacion de data\nTablas de frecuencia\nexportacion de data\nVisualización de datos: ggplot2, plotly\nintro al rmd\n\nformatos de output: html, pdf, word\nCombinando texto, tablas, gráficos\nResultado: elaboración de reportes"
+    "text": "intro al r\npaquetes\nimportación de data\nexploración de data\nmanipulación de data\nTablas de frecuencia\nexportacion de data\nVisualización de datos: ggplot2, plotly\nintro al rmd\n\nformatos de output: html, pdf, word\nCombinando texto, tablas, gráficos\nResultado: elaboración de reportes\n\neste es un cambio drástico"
   },
   {
     "objectID": "clasep2.html#temas",
     "href": "clasep2.html#temas",
     "title": "Clase práctica 2",
     "section": "",
-    "text": "intro al r\npaquetes\nimportacion de data\nexploracion de data\nmanipulacion de data\nTablas de frecuencia\nexportacion de data\nVisualización de datos: ggplot2, plotly\nintro al rmd\n\nformatos de output: html, pdf, word\nCombinando texto, tablas, gráficos\nResultado: elaboración de reportes"
+    "text": "intro al r\npaquetes\nimportación de data\nexploración de data\nmanipulación de data\nTablas de frecuencia\nexportacion de data\nVisualización de datos: ggplot2, plotly\nintro al rmd\n\nformatos de output: html, pdf, word\nCombinando texto, tablas, gráficos\nResultado: elaboración de reportes\n\neste es un cambio drástico"
+  },
+  {
+    "objectID": "semana10.html",
+    "href": "semana10.html",
+    "title": "Clase práctica Semana 10",
+    "section": "",
+    "text": "Introducción\n¿Cómo funciona R?\n\n“Todo lo que existe en R es un objeto, todo lo que sucede en R es una función.”\n-John Chambers\n\nR es un lenguaje de programación que tradicionalmente opera como funciones anidadas. Por ejemplo:\n\nsupermercado &lt;- c(\"manzana\", \"pera\", \"uva\")\ngsub(\"a\", \"A\", paste(\"mi\", supermercado))\n\n[1] \"mi mAnzAnA\" \"mi perA\"    \"mi uvA\"    \n\n\nSe podría comparar con una matrioska o muñeca rusa en la medida en que una función encapsula a otra función y así sucesivamente ejecutándose de adentro hacia afuera.\nLa manera moderna de programar en R es utilizando el operador %&gt;% o pipeta. El mismo ejemplo se vería así:\n\nlibrary(dplyr)\nsupermercado &lt;- c(\"manzana\", \"pera\", \"uva\")\nsupermercado %&gt;% \n  paste(\"mi\", .) %&gt;% \n  gsub(\"a\", \"A\", .)\n\n[1] \"mi mAnzAnA\" \"mi perA\"    \"mi uvA\"    \n\n\nLa pipeta se puede importar desde el paquete {dplyr} y se puede comparar con una tubería que pasa el resultado hacia la siguiente función, es decir, primero llamamos al objeto supermercado y luego aplicamos la función paste, y luego aplicamos la función gsub. Esta manera de programar se lee de arriba a abajo. El atajo para escribir la pipeta es ctrl + shift + m\nEn la práctica utilizaremos una combinación de la manera tradicional y moderna al momento de programar en R.\n\n\nPreparación\nPara iniciar un proyecto de R nos dirigiremos a la pestaña\nFile &lt; New Project &lt; New Directory &lt; New Project &lt; Create Project\nLuego creamos un nuevo archivo R markdown (.Rmd), nos dirigimos a la pestaña\nFile &lt; New File &lt; R Markdown &lt; Ok\nPara crear un bloque de código en R podemos hacer click en el ícono verde con la letra C en la barra superior o utilizar el atajo ctrl + alt + i\nAhora instalamos los paquetes necesarios para el ejercicio de hoy.\n\ninstall.packages(\"pacman\")\npacman::p_load(tidyverse, rio)\n\n\n\nImportación de data\nEn esta clase, se importa la base de datos filmaffinity que contiene información sobre filmes publicados entre 1900 y 2020. Para mayor información revise el enlace.\n\nfilmaffinity &lt;- rio::import(\"data/filmaffinity_dataset.xlsx\")\n\n\n\nExploración de data\nUna vez importada la base de datos a la sesión, es necesario explorarla para familiarizarnos con la información.\n\nfilmaffinity\n\n\n  \n\n\n\nLa base de filmes cuenta con 119,003 observaciones y 9 variables.\n\nfilmaffinity %&gt;% \n  count(`Tipo filme`)\n\n\n  \n\n\n\nLa mayoría de observaciones corresponden al tipo filme con 73,651 observaciones.\n\nglimpse(filmaffinity)\n\nRows: 119,003\nColumns: 9\n$ ...1         &lt;dbl&gt; 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,…\n$ Título       &lt;chr&gt; \"'49-'17\", \"10,000 Years B.C. (C)\", \"1812\", \"20.000 legua…\n$ Año          &lt;dbl&gt; 1917, 1916, 1912, 1907, 1909, 1916, 1912, 1916, 1908, 191…\n$ País         &lt;chr&gt; \"Estados Unidos\", \"Estados Unidos\", \"Rusia\", \"Francia\", \"…\n$ Dirección    &lt;chr&gt; \"Ruth Ann Baldwin\", \"Willis H. O'Brien\", \"Vasili Goncharo…\n$ Reparto      &lt;chr&gt; \"Joseph W. Girard, Leo Pierson, William Dyer, Mattie Witt…\n$ Nota         &lt;chr&gt; \"--\", \"5,1\", \"--\", \"6,0\", \"5,3\", \"--\", \"5,4\", \"--\", \"4,6\"…\n$ `Tipo filme` &lt;chr&gt; \"Película\", \"Cortometraje\", \"Película\", \"Cortometraje\", \"…\n$ Género       &lt;chr&gt; \"Western\", \"Comedia\", \"Drama\", \"Fantástico\", \"Comedia\", \"…\n\n\nEn la base de datos se tienen las variables ...1, Título, Año, País, Dirección, Reparto, Nota, Tipo filme, Género.\n\n\nLimpieza de data\nLa primera columna que corresponde al index del filme en la tabla no tiene un nombre inteligible, por lo que procedemos a renombrar esta columna.\n\nfilmaffinity2 &lt;- \n  filmaffinity %&gt;% \n1  rename(index = 1)\n\nfilmaffinity2\n\n\n1\n\nRenombrar la variable de la posición 1.\n\n\n\n\n\n  \n\n\n\nLa variable Nota actualmente figura como character en vez de numeric dado que el punto decimal está representado como una , y los valores perdidos como --. Ajustemos esta variable para poder utilizarla como variable numérica.\n\nfilmaffinity3 &lt;- \n  filmaffinity2 %&gt;% \n  mutate(\n1    Nota = gsub(\",\", \".\", Nota),\n2    Nota = gsub(\"--\", NA, Nota),\n3    Nota = as.numeric(Nota),\n  )\nfilmaffinity3\n\n\n1\n\nReemplazar el símbolo , por . en la columna Nota.\n\n2\n\nReemplazar el símbolo -- por el valor perdido NA en la columna Nota.\n\n3\n\nConvertir la columna Nota a variable numérica.\n\n\n\n\n\n  \n\n\n\nLuego de aplicar este proceso podemos realizar operaciones aritméticas con la variable Nota:\n\ntab1 &lt;- \n  filmaffinity3 %&gt;% \n  group_by(`Tipo filme`) %&gt;% \n  summarise(Nota_promedio = mean(Nota, na.rm =T))\ntab1\n\n\n  \n\n\n\nEl promedio de los filmes, considerando los puntuados, para el caso de miniserie es de 6.1.\n\n\nExportación de data\nFinalmente, para exportar la tabla sobre la nota promedio de los filmes a excel se puede utilizar la siguiente función del paquete {rio}:\n\ntab1 %&gt;% \n  rio::export(\"data/tab1.xlsx\")\n\n\n\nEjercicio final\nResponda las siguientes preguntas:\n\nCuál es la película más antigua de Estados Unidos, Perú, Chile, España\nCuál es el puntaje promedio por tipo de estos países."
   },
   {
     "objectID": "index.html",
@@ -19,5 +33,12 @@
     "title": "Acerca de",
     "section": "",
     "text": "En esta página podrás encontrar recursos para las clases de programación del curso."
+  },
+  {
+    "objectID": "doc2.html",
+    "href": "doc2.html",
+    "title": "doc2",
+    "section": "",
+    "text": "Hi"
   }
 ]

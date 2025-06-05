@@ -12,7 +12,7 @@ code-annotations: hover
 
 ## Material para el ejercicio
 
-Descarga la carpeta .zip para acceder al material de esta sesión. Haga click en el siguiente [enlace](). No olvides unzipear el archivo.
+Descarga la carpeta .zip para acceder al material de esta sesión. Haga click en el siguiente [enlace](https://github.com/aito123/CCO221_web/tree/master/semana10_material). No olvides unzipear el archivo.
 
 :::
 

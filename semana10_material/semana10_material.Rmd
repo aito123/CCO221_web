@@ -1,0 +1,141 @@
+---
+title: "Clase práctica Semana 10"
+author: "ESCRIBE TU NOMBRE AQUÍ"
+output: 
+  html_document:
+    df_print: paged
+---
+
+# Introducción
+
+¿Cómo funciona R?
+
+> "Todo lo que existe en R es un objeto, todo lo que sucede en R es una función."
+>
+> -John Chambers
+
+R es un lenguaje de programación que tradicionalmente opera como funciones anidadas. Por ejemplo:
+
+```{r}
+supermercado <- c("manzana", "pera", "uva")
+gsub("a", "A", paste("mi", supermercado))
+```
+
+Se podría comparar con una *matrioska* o muñeca rusa en la medida en que una función encapsula a otra función y así sucesivamente ejecutándose de adentro hacia afuera.
+
+La manera moderna de programar en R es utilizando el operador `%>%` o pipeta. El mismo ejemplo se vería así:
+
+```{r message=FALSE}
+library(dplyr)
+supermercado <- c("manzana", "pera", "uva")
+supermercado %>% 
+  paste("mi", .) %>% 
+  gsub("a", "A", .)
+```
+
+La pipeta se puede importar desde el paquete `{dplyr}` y se puede comparar con una tubería que pasa el resultado hacia la siguiente función, es decir, primero llamamos al objeto `supermercado` y luego aplicamos la función `paste`, y luego aplicamos la función `gsub`. Esta manera de programar se lee de arriba a abajo. El atajo para escribir la pipeta es `ctrl` + `shift` + `m`
+
+En la práctica utilizaremos una combinación de la manera tradicional y moderna al momento de programar en R.
+
+# Preparación
+
+Para iniciar un proyecto de R nos dirigiremos a la pestaña
+
+`File > New Project > New Directory > New Project > Create Project`
+
+Luego creamos un nuevo archivo R markdown (`.Rmd`), nos dirigimos a la pestaña
+
+`File > New File > R Markdown > Ok`
+
+Para crear un bloque de código en R podemos hacer click en el ícono verde con la letra C en la barra superior o utilizar el atajo `ctrl` + `alt` + `i`
+
+Ahora instalamos los paquetes necesarios para el ejercicio de hoy.
+
+```{r eval=FALSE}
+install.packages("pacman")
+pacman::p_load(tidyverse, rio)
+```
+
+# Importación de data
+
+En esta clase, se importa la base de datos `filmaffinity` que contiene información sobre filmes publicados entre 1900 y 2020. Para mayor información revise el [enlace](https://www.kaggle.com/datasets/gan2gan/filmaffinity-dataset-spanish).
+
+```{r}
+filmaffinity <- rio::import("data/filmaffinity_dataset.xlsx")
+```
+
+# Exploración de data
+
+Una vez importada la base de datos a la sesión, es necesario explorarla para familiarizarnos con la información.
+
+```{r}
+filmaffinity
+```
+
+La base de filmes cuenta con 119,003 observaciones y 9 variables.
+
+```{r}
+filmaffinity %>% 
+  count(`Tipo filme`)
+```
+
+La mayoría de observaciones corresponden al tipo filme con 73,651 observaciones.
+
+```{r}
+glimpse(filmaffinity)
+```
+
+En la base de datos se tienen las variables `...1`, `Título`, `Año`, `País`, `Dirección`, `Reparto`, `Nota`, `Tipo filme`, `Género`.
+
+# Limpieza de data
+
+La primera columna que corresponde al index del filme en la tabla no tiene un nombre inteligible, por lo que procedemos a renombrar esta columna.
+
+```{r}
+filmaffinity2 <- 
+  filmaffinity %>% 
+  rename(index = 1) # Renombrar la variable de la posición 1.
+
+filmaffinity2
+```
+
+La variable Nota actualmente figura como `character` en vez de `numeric` dado que el punto decimal está representado como una `,` y los valores perdidos como `--`. Ajustemos esta variable para poder utilizarla como variable numérica.
+
+```{r}
+filmaffinity3 <- 
+  filmaffinity2 %>% 
+  mutate(
+    Nota = gsub(",", ".", Nota), # Reemplazar el símbolo `,` por `.` en la columna Nota.
+    Nota = gsub("--", NA, Nota), # Reemplazar el símbolo `--` por el valor perdido `NA` en la columna Nota.
+    Nota = as.numeric(Nota), # Convertir la columna Nota a variable numérica.
+  )
+filmaffinity3
+```
+
+Luego de aplicar este proceso podemos realizar operaciones aritméticas con la variable Nota:
+
+```{r}
+tab1 <- 
+  filmaffinity3 %>% 
+  group_by(`Tipo filme`) %>% 
+  summarise(Nota_promedio = mean(Nota, na.rm =T))
+tab1
+```
+
+El promedio de los filmes, considerando los puntuados, para el caso de miniserie es de 6.1.
+
+# Exportación de data
+
+Finalmente, para exportar la tabla sobre la nota promedio de los filmes a excel se puede utilizar la siguiente función del paquete `{rio}`:
+
+```{r}
+tab1 %>% 
+  rio::export("data/tab1.xlsx")
+```
+
+# Ejercicio final
+
+Responda las siguientes preguntas:
+
+1.  Cuál es la película más antigua de Estados Unidos, Perú, Chile, España
+2.  Cuál es el puntaje promedio por tipo de estos países.

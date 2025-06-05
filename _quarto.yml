@@ -1,5 +1,10 @@
 project:
   type: website
+  render: 
+    - "*.Rmd"
+    - "*.rmd"
+    - "*.qmd"
+    - "!semana*/"
 
 website:
   title: "CCO221 - Métodos y técnicas de investigación 1"

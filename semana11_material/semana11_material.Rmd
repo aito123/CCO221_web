@@ -1,0 +1,156 @@
+---
+title: "Clase práctica Semana 11"
+author: "ESCRIBE TU NOMBRE AQUÍ"
+output: 
+  html_document:
+    df_print: paged
+---
+
+# Gráficar en R
+
+Usaremos el paquete ggplot 2 para generar distintos tipos de gráficos:
+-   Gráfico de barras
+-   Histograma
+-   Boxplot
+
+Primero, preparamos todos los insumos que necesitaremos y ya conocemos (carga de paquetes, importación de data y tabulación de resultados)
+
+## Cargar paquetes
+
+```{r}
+pacman::p_load(rio, dplyr, ggplot2)
+```
+
+## Importación de data
+
+```{r}
+df <- import("data/filmaffinity_dataset_limpio.xlsx")
+```
+
+## Exploración de data
+
+```{r}
+str(df)
+```
+
+## Gráfico de barras
+
+### ¿Qué variable podemos representar con un gráfico de barras?
+
+Antes de graficar, vamos a crear una tabla de frecuencias y porcentajes usando `count` y `mutate`, como ya hemos aprendido. Esta tabla se usará como base para construir los gráficos con el paquete `{ggplot2}`.
+
+Este paquete funciona por capas: cada capa agrega elementos o configuraciones al gráfico. Empezaremos con una estructura básica para generar gráficos de barras, uniendo las capas con el símbolo `+`.
+
+```{r}
+tab_bars <- df %>%
+  count(`Tipo filme`) %>% 
+  mutate(pct = n / sum(n) * 100)
+
+ggplot(tab_bars, aes(x = `Tipo filme`, y = pct)) +
+  geom_col()
+```
+
+Probemos añadir más capas para personalizar el gráfico y hacerlo más visualmente claro y llamativo
+
+```{r}
+ggplot(tab_bars, aes(x = `Tipo filme`, y = pct)) + 
+  geom_col(fill = "steelblue") + 
+  labs(title = "Gráfico 1: Tipo de filme (%)", 
+       x = "Tipo de filme",
+       y = "Porcentaje") +
+  theme_minimal() 
+```
+
+La versatilidad de `{ggplot2}` nos permite personalizar distintas combinaciones.
+
+```{r}
+ggplot(tab_bars, aes(x = `Tipo filme`, y = pct, fill = `Tipo filme`)) + 
+  geom_col() + 
+  labs(title = "Gráfico 1: Tipo de filme (%)", 
+       x = "Tipo de filme",
+       y = "Porcentaje") +
+  coord_flip() + 
+  theme_minimal() + 
+  scale_fill_brewer(palette = "Set3")
+```
+
+También podemos cruzar variables.
+
+```{r}
+df2 <- df %>% 
+  mutate(Nota_cat =  
+           case_when(Nota < 5 ~ "Menos de 5",
+                     Nota >= 5 ~ "5 a más",
+                     is.na(Nota) ~ "Sin nota"),
+         Nota_cat = 
+           factor(Nota_cat, 
+                  levels = c("Sin nota", "5 a más", "Menos de 5"),
+                  ordered = TRUE))
+
+tab_bars2 <- df2 %>%
+  group_by(`Tipo filme`) %>% 
+  count(Nota_cat) %>% 
+  mutate(pct = round(n / sum(n) * 100, 0))
+
+ggplot(tab_bars2, aes(x = `Tipo filme`, y = pct, fill = Nota_cat)) + 
+  geom_col() + 
+  labs(title = "Gráfico 1: Tipo de filme (%)",
+       x = "Tipo de filme",
+       y = "Porcentaje") +
+  geom_text(aes(label = pct), position = position_stack(vjust = 0.5)) + 
+  theme_minimal() + 
+  scale_fill_brewer(palette = "Set3") 
+```
+
+## Histograma
+
+¿Qué variable podemos representar con un histograma?
+
+```{r}
+ggplot(df, aes(x = Año)) + 
+  geom_histogram(fill = "steelblue") + 
+  labs(title = "Gráfico 2: Año de estreño de filmes", 
+       x = "Año",
+       y = "Frecuencia") +
+  theme_minimal()
+```
+
+Una capa que nos permite cruzar la información para una visualización desagregada es `facet_wrap`.
+
+```{r}
+ggplot(df, aes(x = Año)) + 
+  geom_histogram(fill = "steelblue") +
+  facet_wrap(~ `Tipo filme`, scales = "free") +  
+  labs(title = "Gráfico 2: Año de estreño de filmes", 
+       x = "Año",
+       y = "Cantidad") +
+  theme_minimal() 
+```
+
+## Box Plot
+
+¿Qué variable podemos representar con un *box plot*?
+
+```{r}
+ggplot(df, aes(y = Nota, x = `Tipo filme`, fill = `Tipo filme`)) +
+  geom_boxplot(show.legend = F) +
+  scale_fill_brewer(palette = "Set3")
+```
+
+# Exportación de gráficos
+
+Finalmente, para exportar gráficos, se puede utilizar la siguiente función también en `{ggplot2}`:
+
+```{r}
+plot <- ggplot(df, aes(y = Nota, x = `Tipo filme`)) +
+  geom_boxplot()
+
+ggsave("outputs/boxplot.png", plot)
+```
+
+# Ejercicio final
+
+Responde las siguientes preguntas a partir de gráficos generados con `{ggplot2}`:
+
+1. ¿Cómo ha evolucionado la producción de filmes franceses a lo largo del tiempo? ¿Existen diferncias según tipo de filme? Representa visualmente la información y comenta la tendencia observada.
+2. ¿Cómo ha evolucionado la producción de filmes peruanos a lo largo del tiempo? ¿Existen diferncias según tipo de filme? Representa visualmente la información y comenta la tendencia observada.

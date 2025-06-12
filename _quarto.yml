@@ -26,6 +26,8 @@ website:
             text: Semana 10
           - href: semana11.qmd
             text: Semana 11
+          - href: semana12.qmd
+            text: Semana 12
 
 format:
   html:

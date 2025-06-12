@@ -1,0 +1,177 @@
+---
+title: "Clase práctica Semana 12"
+author: "Santiago Sotelo y Nadia Duffó"
+format: html
+execute: 
+  echo: true
+df-print: paged
+code-annotations: hover
+---
+
+::: callout-note
+## Material para el ejercicio
+
+Descarga la carpeta .zip para acceder al material de esta sesión. Haga click en el siguiente [enlace](https://downgit.github.io/#/home?url=https://github.com/aito123/CCO221_web/tree/master/semana12_material). No olvides unzipear el archivo.
+:::
+
+# Estadística bivariada:
+# Chi-cuadrado
+
+Permite evaluar si existe una *asociación estadística* entre *dos* variables *categóricas.* Para esto, compara las *frecuencias observadas* con las *frecuencias esperadas*. 
+
+Bajo el supuesto de independencia, si las diferencias son suficientemente grandes, se concluye que las variables están asociadas.
+
+Haremos una evaluación. Primero, preparamos todos los insumos que necesitaremos y ya conocemos (carga de paquetes, importación y exploración de data)
+
+## Cargar paquetes
+
+```{r}
+pacman::p_load(rio, dplyr, ggplot2)
+```
+
+## Importación de data
+
+```{r}
+df <- import("data/filmaffinity_dataset_limpio.xlsx")
+```
+
+## Exploración de data
+
+```{r}
+glimpse(df)
+```
+
+## Chi cuadrado
+
+Generamos una tabla de frecuencias observadas
+
+```{r}
+df2 <- df %>% 
+  filter(Nota_cat != "Sin nota")
+tabla1 <- table(df2$Nota_cat, df2$continente)
+print(tabla1)
+```
+
+Generamos una tabla de frecuencias esperadas
+
+```{r}
+tabla2 <- chisq.test(tabla1)$expected
+print(tabla2)
+```
+
+Realizamos la prueba
+
+```{r}
+chisq.test(tabla1)
+```
+
+Comprobamos con proporciones
+```{r}
+tabla1 %>% 
+  prop.table(2) %>% 
+  round(3)*100
+```
+
+# Trabajo grupal: exploración de nuestra data
+
+## Carga de paquetes
+
+```{r setup}
+pacman::p_load(rio, dplyr, tidyr, labelled, tibble, questionr)
+```
+
+## Importación de base de KoboToolbox
+
+Debemos primero importar nuestra base de datos descargada desde Kobo.
+
+```{r eval=FALSE}
+df <- import("data/base_ejemplo.xlsx")
+```
+
+## Exploración inicial de data
+
+```{r eval=FALSE}
+names(df)
+```
+
+```{r eval=FALSE}
+glimpse(df)
+```
+
+## Cambio de encabezados
+
+Cambiar los nombres de variables a nombres más cortos nos permitirá un mejor manejo de la base.
+
+```{r eval=FALSE}
+encabezados <- c('start',
+                 'end',
+                 'P1',
+                 'P2',
+                 'P3',
+                 'P4',
+                 'P4_1',
+                 'P4_2',
+                 'P4_3',
+                 'P4_4',
+                 'P4_5',
+                 'P4_6',
+                 'P4_7',
+                 'P4_8',
+                 '_id',
+                 '_uuid',
+                 '_submission_time',
+                 '_validation_status',
+                 '_notes',
+                 '_status',
+                 '_submitted_by',
+                 '__version__',
+                 '_tags',
+                 '_index')
+df2 <- df
+names(df2) <- encabezados
+```
+
+## Configuración de etiquetas de variables
+
+Además del nombre, podemos añadir etiquetas a las columnas.
+
+```{r eval=FALSE}
+etiquetas_columnas <- list(start = 'start',
+                   end = 'end',
+                   P1 = 'Título del videojuego',
+                   P2 = 'Año de lanzamiento (tráiler)',
+                   P3 = 'Empresa',
+                   P4 = 'Género',
+                   P4_1 = 'Shooter',
+                   P4_2 = 'Acción y aventura',
+                   P4_3 = 'Terror',
+                   P4_4 = 'Plataformas',
+                   P4_5 = 'Simulación',
+                   P4_6 = 'Rol',
+                   P4_7 = 'Peleas',
+                   P4_8 = 'Ninguno de los anteriores',
+                   `_id` = '_id',
+                   `_uuid` = '_uuid',
+                   `_submission_time` = '_submission_time',
+                   `_validation_status` = '_validation_status',
+                   `_notes` = '_notes',
+                   `_status` = '_status',
+                   `_submitted_by` = '_submitted_by',
+                   `__version__` = '__version__',
+                   `_tags` = '_tags',
+                   `_index` = '_index')
+
+df3 <- df2
+var_label(df3) <- etiquetas_columnas
+```
+
+## Tablas de respuesta múltiple
+
+```{r eval=FALSE}
+df3 %>% 
+  select(starts_with('P4_')) %>% 
+  multi.table(., digits = 1) %>% 
+  as.data.frame(.) %>% 
+  rownames_to_column(. , 'Género') %>%
+  mutate(Género = unlist(etiquetas_columnas[.$Género]))
+```

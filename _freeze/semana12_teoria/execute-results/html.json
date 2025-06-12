@@ -1,0 +1,21 @@
+{
+  "hash": "42d3d17d0a58d5e96dc25e0ade22e3d2",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Clase teórica Semana 12\"\nsubtitle: \"chi2cuadrado\"\nauthor: \"Marylia Cruz\"\ndate: \"2025-06-09\"\nformat: html\nexecute: \n  echo: true\n  message: false\ndf-print: paged\ncode-annotations: hover\n---\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(rio)\ndata=import(\"data/Data_ejemplo_comunica.xlsx\")\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nnames(data)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"N\"                               \"Nivel de procastinacion\"        \n[3] \"RedSocial\"                       \"Tiempo en redes sociales\"       \n[5] \"Le gusta Leer\"                   \"Numero de interacciones diarias\"\n[7] \"Numero de Seguidores\"           \n```\n\n\n:::\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\ntabla1=table(data$`Nivel de procastinacion`,data$RedSocial)\nprint(tabla1)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n       \n        Instagram Tiktok Twitter\n  Alto         20     33      15\n  Bajo         20     15      30\n  Medio        22     20      25\n```\n\n\n:::\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nchisq.test(table(data$`Nivel de procastinacion`,data$RedSocial))$expected\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n       \n        Instagram Tiktok Twitter\n  Alto      21.08  23.12   23.80\n  Bajo      20.15  22.10   22.75\n  Medio     20.77  22.78   23.45\n```\n\n\n:::\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nchisq.test(tabla1)$expected\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n       \n        Instagram Tiktok Twitter\n  Alto      21.08  23.12   23.80\n  Bajo      20.15  22.10   22.75\n  Medio     20.77  22.78   23.45\n```\n\n\n:::\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nchisq.test(tabla1)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n\n\tPearson's Chi-squared test\n\ndata:  tabla1\nX-squared = 12.638, df = 4, p-value = 0.01319\n```\n\n\n:::\n:::\n\n\nHipotesis nula: No hay asociación entre el nivel de procastinacion y la red social más consumida. Dado que el p-valor es menor que 0.05, rechazo la Hipótesis nula.\n\nEn conclusión a un 95% de nivel de confianza,si está asociados el nivel de procastinación con la red social más consumida.\n\n\n::: {.cell}\n\n```{.r .cell-code}\naddmargins(prop.table(tabla1,2)*100)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n       \n        Instagram    Tiktok   Twitter       Sum\n  Alto   32.25806  48.52941  21.42857 102.21605\n  Bajo   32.25806  22.05882  42.85714  97.17403\n  Medio  35.48387  29.41176  35.71429 100.60992\n  Sum   100.00000 100.00000 100.00000 300.00000\n```\n\n\n:::\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(dplyr)\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\ntabla2 = tabla1 %>%\n  prop.table(2)%>%\n  round(3)*100 \ntabla2\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n       \n        Instagram Tiktok Twitter\n  Alto       32.3   48.5    21.4\n  Bajo       32.3   22.1    42.9\n  Medio      35.5   29.4    35.7\n```\n\n\n:::\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\ntabla3=as.data.frame(tabla2)\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(forcats)\ntabla3$Var1 <- fct_relevel(tabla3$Var1, \"Alto\", \"Medio\", \"Bajo\")\n```\n:::\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(ggplot2)\nggplot(data=tabla3, aes(x=Var2,y=Freq,fill=Var1))+\n  geom_bar(position = \"stack\",stat = \"identity\")+\n  geom_text(aes(label=paste(round(Freq,0), \"%\", sep=\"\")), \n            position = position_stack(), vjust=1, size = 3)+\n  labs(x=\"Red Social\", y=\"Porcentaje\", fill=\"Nivel de procastinación\")+\n  scale_fill_manual(values = c(\"#CD3333\",\"pink\", \"bisque\"))\n```\n\n::: {.cell-output-display}\n![](semana12_teoria_files/figure-html/unnamed-chunk-12-1.png){width=672}\n:::\n:::\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    "supporting": [
+      "semana12_teoria_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {
+      "include-in-header": [
+        "<link href=\"site_libs/pagedtable-1.1/css/pagedtable.css\" rel=\"stylesheet\" />\n<script src=\"site_libs/pagedtable-1.1/js/pagedtable.js\"></script>\n"
+      ]
+    },
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

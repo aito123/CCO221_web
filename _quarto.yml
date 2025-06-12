@@ -12,6 +12,14 @@ website:
     left:
       - href: index.qmd
         text: Acerca de
+      - text: Clases teóricas
+        menu: 
+          - href: semana10_teoria.qmd
+            text: Semana 10
+          - href: semana11_teoria.qmd
+            text: Semana 11
+          - href: semana12_teoria.qmd
+            text: Semana 12
       - text: Clases prácticas
         menu: 
           - href: semana10.qmd

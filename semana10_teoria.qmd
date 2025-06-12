@@ -1,0 +1,131 @@
+---
+title: "Clase teórica Semana 10"
+author: "Marylia Cruz"
+date: "2025-05-26"
+format: html
+execute: 
+  echo: true
+df-print: paged
+code-annotations: hover
+---
+
+```{r}
+peliculas=c("driver","mike7","destinofinal","frozen","flow")
+año=c(2011,2025,2000,2013,2024)
+genero=c("accion","cienciafiction","terror","animacion","animacion")
+```
+
+```{r}
+data=data.frame(peliculas,año,genero)
+```
+
+```{r}
+library(rio)
+#export(data,"peliculas.csv") #csv delimitado por comas
+#export(data,"peliculas.xlsx") #xlsx para guarr un archivo en excel
+```
+
+
+```{r}
+data2=import("data/Base_Peliculas_Disney-2.sav")
+```
+
+```{r}
+names(data2)
+```
+
+```{r}
+names(data2)[6] <- "ingresos" 
+```
+
+```{r}
+tail(data2)
+```
+
+```{r}
+str(data2)
+```
+
+```{r}
+table(data2$genero)
+```
+
+```{r}
+library(dplyr)
+tabla_frecuencia = data2 %>%
+  count(genero) %>% 
+  filter(!genero %in% "") #removemos valores perdidos
+tabla_frecuencia
+
+```
+
+```{r}
+tabla_porcentajes= data2 %>%
+  count(genero) %>% 
+  filter(!genero %in% "") %>% #removemos valores perdidos
+  mutate(porcentaje = n / sum(n) * 100)  # Calculamos el porcentaje
+tabla_porcentajes
+```
+
+```{r}
+library(ggplot2)
+ggplot(tabla_porcentajes, aes(x=genero,y=porcentaje, fill=genero))+
+  geom_bar(stat = "identity")+
+    coord_flip()+
+  labs(title = "Gráfico de barras de porcentaje de peliculas por Genero",
+       x = "Genero",
+       y = "Porcentaje") +
+  theme_minimal() +  # Tema minimalista
+  scale_fill_brewer(palette = "Set3") 
+
+```
+
+```{r}
+tabla_porcentajes2= data2 %>%
+  count(mpaa_rating) %>%
+  filter(!mpaa_rating %in% "") %>% #removemos valores perdidos
+  mutate(porcentaje = n / sum(n) * 100)  # Calculamos el porcentaje
+tabla_porcentajes2
+```
+
+
+```{r}
+library(ggplot2)
+ggplot(tabla_porcentajes2, aes(x=mpaa_rating,y=porcentaje, fill=mpaa_rating))+
+  geom_bar(stat = "identity")+
+    coord_flip()+
+  labs(title = "Gráfico de barras de porcentaje de peliculas por MPAA",
+       x = "MPAA",
+       y = "Porcentaje") +
+  theme_minimal() +  # Tema minimalista
+  scale_fill_brewer(palette = "Set3") 
+
+
+```
+
+```{r}
+mean(data2$ingresos)
+```
+```{r}
+summary(data2$ingresos)
+```
+
+```{r}
+data2$antigüedad=as.numeric(data2$antigüedad)
+```
+
+```{r}
+summary(data2$antigüedad)
+```
+
+```{r}
+ggplot(data2,aes(x=antigüedad))+
+  geom_histogram()
+```
+
+
+```{r}
+ggplot(data2,aes(y=antigüedad,x=genero))+
+  geom_boxplot() +
+  coord_flip()
+```

@@ -28,6 +28,11 @@ website:
             text: Semana 11
           - href: semana12.qmd
             text: Semana 12
+      - text: Ejercicios
+        menu: 
+          - href: semana13_ejercicios.qmd
+            text: Semana 13
+
 
 format:
   html:

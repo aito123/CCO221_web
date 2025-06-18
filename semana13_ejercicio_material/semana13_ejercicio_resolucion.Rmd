@@ -1,0 +1,176 @@
+---
+title: "Ejercicios Semana 13 - resolución"
+output: html_document
+author: "Santiago Sotelo y Nadia Duffó"
+date: "2025-06-18"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+# ✨ Ejercicios de repaso en R: análisis descriptivo y prueba chi-cuadrado
+
+En este conjunto de ejercicios repasaremos algunos procedimientos básicos en R relacionados con el análisis descriptivo y el análisis bivariado mediante la prueba chi-cuadrado.
+
+El código que aparece más abajo incluye ejemplos, pero está incompleto a propósito. Cada vez que encuentres `____`, significa que debes completar esa parte del código.
+
+Trabajaremos con una base de datos de noticias en web que contiene información como si una noticias es falsa o real, si incluye imagen, y cómo se ha compartido en Facebook (*likes*, comentarios, *shares*, y *engagements* -la suma de los tres primeros-).
+
+## 📦 1. Preparación del entorno
+
+Recuerda siempre iniciar con la carga de los paquetes necesarios. Si deseas saber a qué paquete pertenece una función, puedes escribir en la consola `?nombre_de_función` para consultar la ayuda (en el panel “Help”).
+
+```{r}
+pacman::p_load(rio, dplyr, ggplot2, scales)
+```
+
+## 📁 2. Importación de la base de datos
+
+Importa la base desde el archivo `data/datanews.xlsx`.
+
+```{r}
+df <- import("data/datanews.xlsx")
+```
+
+## 🔍 3. Exploración inicial
+
+Explora la estructura de la base (nombres de columnas, tipos de datos, etc.) usando funciones como `names()`, `head()`, `tail()`, `glimpse()`, `str()`.
+
+```{r}
+names(df)
+head(df)
+tail(df)
+glimpse(df)
+str(df)
+```
+
+## 📊 4. Análisis descriptivo
+
+Podemos comenzar describiendo algunas variables mediante tablas y gráficos. Responde las siguientes preguntas:
+
+### ¿Cuál es la proporción de noticias falsas y reales?
+
+Primero, crea una tabla con frecuencias y porcentajes.
+
+```{r}
+tabla <- df %>%
+  count(es_fake) %>% 
+  mutate(pct = round(n / sum(n) * 100))
+
+tabla
+```
+
+Luego, representa la información gráficamente con el tipo de gráfico más adecuado.
+
+```{r}
+ggplot(tabla, aes(x = es_fake, y = pct)) +
+  geom_col() +
+  labs(title = "Gráfico 1: Noticias según tipo (falsas y reales)",
+       x = "Tipo de noticia",
+       y = "Porcentaje") +
+  theme_minimal()
+```
+
+✏️ Describe brevemente lo que observaste: 
+
+### ¿Cómo varía la presencia de imágenes entre noticias falsas y reales? 
+
+Primero, construye una tabla de contingencia.
+
+```{r}
+tabla <- table(df$tiene_imagen, df$es_fake) %>% 
+  prop.table(2)*100
+
+tabla
+```
+
+Ahora, grafica la distribución.
+
+```{r}
+tabla_plot <- df %>%
+  group_by(es_fake) %>% 
+  count(tiene_imagen) %>%
+  mutate(pct = round(n / sum(n) * 100))
+
+ggplot(tabla_plot, aes(x = es_fake, y = pct, fill = tiene_imagen)) +
+  geom_col() +
+  coord_flip() +
+  labs(title = "Gráfico 2: Noticias según tipo (falsas y reales) por si contienen imagen",
+       x = "Tipo",
+       y = "Porcentaje",
+       fill = "Contiene imagen") +
+  theme_minimal()
+```
+
+✏️ Describe aquí lo que observaste:
+
+### ¿Qué tendencias se observan en la cantidad de veces que se compartieron las noticias, según su tipo (falsas o reales)?
+
+Primero, observa las medidas de tendencia central (mínimo, máximo, media, mediana, etc.) para cada grupo.
+
+```{r}
+df_fake <- df %>% 
+  filter(es_fake == "Fake")
+
+summary(df_fake$fb_compartido)
+
+df_real <- df %>% 
+  filter(es_fake == "Real")
+
+summary(df_real$fb_compartido)
+```
+
+Luego, genera los gráficos más adecuados.
+
+```{r}
+# Podemos hacer un histograma, por ejemplo
+ggplot(df, aes(x = fb_compartido)) +
+  geom_histogram() +
+  scale_x_log10(labels = label_comma()) + # Añade la función `scale_x_log10()` para que el eje `x` se vuelva logarítmico y permita graficar mejor la amplitud de datos. Necesitarás cargar el paquete {scales}.
+  facet_wrap(~es_fake) +
+  labs(title = "Gráfico 3: Número de veces que las noticias fueron compartidas según tipo (falsas y reales)",
+       x = "Veces compartidas",
+       y = "Porcentaje") +
+  theme_minimal()
+
+# También podemos hacer un boxplot
+ggplot(df, aes(x = es_fake, y = fb_compartido)) +
+  geom_boxplot() +
+  scale_y_log10(labels = label_comma()) + # Añade la función `scale_y_log10()` para que el eje `y` se vuelva logarítmico y permita graficar mejor la amplitud de datos. Necesitarás cargar el paquete {scales}.
+  labs(
+    title = "Gráfico 3: Número de veces que las noticias fueron compartidas según tipo (falsas y reales)",
+    x = "Tipo de noticia",
+    y = "Veces compartidas (escala log)"
+  ) +
+  theme_minimal()
+```
+
+✏️ Describe aquí lo que observaste:
+
+## 5. 🧐 Prueba chi-cuadrado de independencia
+
+Por último, evaluaremos si existe relación entre dos variables categóricas. En este caso, queremos conocer si el uso de imágenes está asociado al tipo de noticia. Partimos de la premisa de que la inclusión de imágenes en una noticia puede estar relacionada con intentos de captar la atención, generar viralidad o aumentar el *engagement*, especialmente en el caso de las noticias falsas. Además, las imágenes podrían utilizarse como estrategia para legitimar la veracidad del contenido.
+
+#### ✏️ Escribe tu hipótesis nula aquí
+#### H₀: No existe relación entre el tipo de noticia (falsa o real) y la presencia de imágenes.
+#### H₁: Existe relación entre el tipo de noticia y la presencia de imágenes.
+
+Primero genera la tabla de frecuencias observadas y esperadas.
+
+```{r}
+tbl <- table(df$tiene_imagen, df$es_fake)
+chisq.test(tbl)$observed %>% prop.table(2) *100
+chisq.test(tbl)$expected %>% prop.table(2) *100
+```
+
+Ahora, realiza la prueba de chi-cuadrado.
+
+```{r}
+chisq.test(tbl)
+chisq.test(tbl)$p.value
+```
+
+✏️ Interpreta aquí los resultados:
+✏️ ¿Qué indica e valor-p?
+✏️ ¿Rechazas o no la hipótesis nula?

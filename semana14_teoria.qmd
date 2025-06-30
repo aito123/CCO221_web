@@ -1,0 +1,89 @@
+---
+title: "Clase teórica Semana 14"
+subtitle: "Creación de indicadores"
+author: "Marylia Cruz"
+date: "2025-06-09"
+format: html
+execute: 
+  echo: true
+  message: false
+df-print: paged
+code-annotations: hover
+---
+
+# Ejercicio de creación de indicadores 
+
+La base de datos Derechos y legalidad LGBT+ por país a nivel mundial, que incluye información sobre los siguientes aspectos:
+
+- *Actividad sexual entre personas del mismo sexo*: si está permitida o penalizada legalmente.
+
+- *Reconocimiento de uniones entre personas del mismo sexo:* por ejemplo, uniones civiles o sociedades de convivencia.
+
+- *Matrimonio entre personas del mismo sexo:* si está legalmente permitido.
+
+- *Adopción por parejas del mismo sexo:* si pueden adoptar hijos legalmente.
+
+- *Personas LGBT en el servicio militar:* si las personas LGBT pueden servir abiertamente en las fuerzas armadas.
+
+- *Leyes contra la discriminación por orientación sexual:* si existen normas que protegen a las personas de ser discriminadas por ser LGBT.
+
+- *Leyes sobre identidad y/o expresión de género:* si existen leyes que reconocen o regulan el derecho a la identidad de género o expresión de género (por ejemplo, para personas trans).
+
+
+# Abrir la base de datos
+
+```{r}
+library(rio)
+data=import("lgbtq_rights_by_country.csv")
+```
+
+```{r}
+names(data)
+```
+
+# Tabla
+
+```{r}
+table(data$`Same-sex sexual activity`)
+```
+
+# Reemplazar Yes por 1 , y lo demás por 0 .
+
+```{r}
+data$`Same-sex sexual activity` <- ifelse(data$`Same-sex sexual activity` == "Yes", 1, 0)
+```
+
+
+```{r}
+data$`Recognition of same-sex unions` <- ifelse(data$`Recognition of same-sex unions` == "Yes", 1, 0)
+```
+
+
+```{r}
+data$`Same-sex marriage` <- ifelse(data$`Same-sex marriage` == "Yes", 1, 0)
+```
+
+```{r}
+data$`Adoption by same-sex couples` <- ifelse(data$`Adoption by same-sex couples` == "Yes", 1, 0)
+```
+
+```{r}
+data$`LGBT people allowed to serve openly in military?` <- ifelse(data$`LGBT people allowed to serve openly in military?` == "Yes", 1, 0)
+```
+
+```{r}
+data$`Anti-discrimination laws concerning sexual orientation` <- ifelse(data$`Anti-discrimination laws concerning sexual orientation` == "Yes", 1, 0)
+```
+
+```{r}
+data$`Laws concerning gender identity/expression` <- ifelse(data$`Laws concerning gender identity/expression` == "Yes", 1, 0)
+```
+
+```{r}
+table(data$`Laws concerning gender identity/expression`)
+```
+
+
+
+
+

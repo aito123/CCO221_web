@@ -8,7 +8,7 @@
 
 <meta name="author" content="Marylia Cruz">
 
-<title>CCO221 - Métodos y técnicas de investigación 1 - Clase teórica Semana 12</title>
+<title>CCO221 - Métodos y técnicas de investigación 1 - Clase teórica Semana 14</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -167,6 +167,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <a class="dropdown-item" href="./semana12_teoria.html">
  <span class="dropdown-text">Semana 12</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./semana13_teoria.html">
+ <span class="dropdown-text">Semana 13</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -210,15 +214,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#ejercicio-de-creación-de-indicadores" id="toc-ejercicio-de-creación-de-indicadores" class="nav-link active" data-scroll-target="#ejercicio-de-creación-de-indicadores">Ejercicio de creación de indicadores</a></li>
+  <li><a href="#abrir-la-base-de-datos" id="toc-abrir-la-base-de-datos" class="nav-link" data-scroll-target="#abrir-la-base-de-datos">Abrir la base de datos</a></li>
+  <li><a href="#tabla" id="toc-tabla" class="nav-link" data-scroll-target="#tabla">Tabla</a></li>
+  <li><a href="#reemplazar-yes-por-1-y-lo-demás-por-0-." id="toc-reemplazar-yes-por-1-y-lo-demás-por-0-." class="nav-link" data-scroll-target="#reemplazar-yes-por-1-y-lo-demás-por-0-.">Reemplazar Yes por 1 , y lo demás por 0 .</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Clase teórica Semana 12</h1>
-<p class="subtitle lead">chi2cuadrado</p>
+<h1 class="title">Clase teórica Semana 14</h1>
+<p class="subtitle lead">Creación de indicadores</p>
 </div>
 
 
@@ -245,110 +258,84 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
+<section id="ejercicio-de-creación-de-indicadores" class="level1">
+<h1>Ejercicio de creación de indicadores</h1>
+<p>La base de datos Derechos y legalidad LGBT+ por país a nivel mundial, que incluye información sobre los siguientes aspectos:</p>
+<ul>
+<li><p><em>Actividad sexual entre personas del mismo sexo</em>: si está permitida o penalizada legalmente.</p></li>
+<li><p><em>Reconocimiento de uniones entre personas del mismo sexo:</em> por ejemplo, uniones civiles o sociedades de convivencia.</p></li>
+<li><p><em>Matrimonio entre personas del mismo sexo:</em> si está legalmente permitido.</p></li>
+<li><p><em>Adopción por parejas del mismo sexo:</em> si pueden adoptar hijos legalmente.</p></li>
+<li><p><em>Personas LGBT en el servicio militar:</em> si las personas LGBT pueden servir abiertamente en las fuerzas armadas.</p></li>
+<li><p><em>Leyes contra la discriminación por orientación sexual:</em> si existen normas que protegen a las personas de ser discriminadas por ser LGBT.</p></li>
+<li><p><em>Leyes sobre identidad y/o expresión de género:</em> si existen leyes que reconocen o regulan el derecho a la identidad de género o expresión de género (por ejemplo, para personas trans).</p></li>
+</ul>
+</section>
+<section id="abrir-la-base-de-datos" class="level1">
+<h1>Abrir la base de datos</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data<span class="ot">=</span><span class="fu">import</span>(<span class="st">"data/Data_ejemplo_comunica.xlsx"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data<span class="ot">=</span><span class="fu">import</span>(<span class="st">"lgbtq_rights_by_country.csv"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "N"                               "Nivel de procastinacion"        
-[3] "RedSocial"                       "Tiempo en redes sociales"       
-[5] "Le gusta Leer"                   "Numero de interacciones diarias"
-[7] "Numero de Seguidores"           </code></pre>
+<pre><code>[1] "Territory"                                             
+[2] "Same-sex sexual activity"                              
+[3] "Recognition of same-sex unions"                        
+[4] "Same-sex marriage"                                     
+[5] "Adoption by same-sex couples"                          
+[6] "LGBT people allowed to serve openly in military?"      
+[7] "Anti-discrimination laws concerning sexual orientation"
+[8] "Laws concerning gender identity/expression"            </code></pre>
 </div>
 </div>
+</section>
+<section id="tabla" class="level1">
+<h1>Tabla</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tabla1<span class="ot">=</span><span class="fu">table</span>(data<span class="sc">$</span><span class="st">`</span><span class="at">Nivel de procastinacion</span><span class="st">`</span>,data<span class="sc">$</span>RedSocial)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(tabla1)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       
-        Instagram Tiktok Twitter
-  Alto         20     33      15
-  Bajo         20     15      30
-  Medio        22     20      25</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="fu">table</span>(data<span class="sc">$</span><span class="st">`</span><span class="at">Nivel de procastinacion</span><span class="st">`</span>,data<span class="sc">$</span>RedSocial))<span class="sc">$</span>expected</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       
-        Instagram Tiktok Twitter
-  Alto      21.08  23.12   23.80
-  Bajo      20.15  22.10   22.75
-  Medio     20.77  22.78   23.45</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(tabla1)<span class="sc">$</span>expected</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       
-        Instagram Tiktok Twitter
-  Alto      21.08  23.12   23.80
-  Bajo      20.15  22.10   22.75
-  Medio     20.77  22.78   23.45</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(tabla1)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data<span class="sc">$</span><span class="st">`</span><span class="at">Same-sex sexual activity</span><span class="st">`</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-    Pearson's Chi-squared test
-
-data:  tabla1
-X-squared = 12.638, df = 4, p-value = 0.01319</code></pre>
+     No Unknown     Yes 
+     53       1     185 </code></pre>
 </div>
 </div>
-<p>Hipotesis nula: No hay asociación entre el nivel de procastinacion y la red social más consumida. Dado que el p-valor es menor que 0.05, rechazo la Hipótesis nula.</p>
-<p>En conclusión a un 95% de nivel de confianza,si está asociados el nivel de procastinación con la red social más consumida.</p>
+</section>
+<section id="reemplazar-yes-por-1-y-lo-demás-por-0-." class="level1">
+<h1>Reemplazar Yes por 1 , y lo demás por 0 .</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(<span class="fu">prop.table</span>(tabla1,<span class="dv">2</span>)<span class="sc">*</span><span class="dv">100</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span><span class="st">`</span><span class="at">Same-sex sexual activity</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data<span class="sc">$</span><span class="st">`</span><span class="at">Same-sex sexual activity</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span><span class="st">`</span><span class="at">Recognition of same-sex unions</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data<span class="sc">$</span><span class="st">`</span><span class="at">Recognition of same-sex unions</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span><span class="st">`</span><span class="at">Same-sex marriage</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data<span class="sc">$</span><span class="st">`</span><span class="at">Same-sex marriage</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span><span class="st">`</span><span class="at">Adoption by same-sex couples</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data<span class="sc">$</span><span class="st">`</span><span class="at">Adoption by same-sex couples</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span><span class="st">`</span><span class="at">LGBT people allowed to serve openly in military?</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data<span class="sc">$</span><span class="st">`</span><span class="at">LGBT people allowed to serve openly in military?</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span><span class="st">`</span><span class="at">Anti-discrimination laws concerning sexual orientation</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data<span class="sc">$</span><span class="st">`</span><span class="at">Anti-discrimination laws concerning sexual orientation</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span><span class="st">`</span><span class="at">Laws concerning gender identity/expression</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data<span class="sc">$</span><span class="st">`</span><span class="at">Laws concerning gender identity/expression</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data<span class="sc">$</span><span class="st">`</span><span class="at">Laws concerning gender identity/expression</span><span class="st">`</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       
-        Instagram    Tiktok   Twitter       Sum
-  Alto   32.25806  48.52941  21.42857 102.21605
-  Bajo   32.25806  22.05882  42.85714  97.17403
-  Medio  35.48387  29.41176  35.71429 100.60992
-  Sum   100.00000 100.00000 100.00000 300.00000</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>tabla2 <span class="ot">=</span> tabla1 <span class="sc">%&gt;%</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop.table</span>(<span class="dv">2</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="dv">3</span>)<span class="sc">*</span><span class="dv">100</span> </span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>tabla2</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       
-        Instagram Tiktok Twitter
-  Alto       32.3   48.5    21.4
-  Bajo       32.3   22.1    42.9
-  Medio      35.5   29.4    35.7</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tabla3<span class="ot">=</span><span class="fu">as.data.frame</span>(tabla2)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>tabla3<span class="sc">$</span>Var1 <span class="ot">&lt;-</span> <span class="fu">fct_relevel</span>(tabla3<span class="sc">$</span>Var1, <span class="st">"Alto"</span>, <span class="st">"Medio"</span>, <span class="st">"Bajo"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>tabla3, <span class="fu">aes</span>(<span class="at">x=</span>Var2,<span class="at">y=</span>Freq,<span class="at">fill=</span>Var1))<span class="sc">+</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"stack"</span>,<span class="at">stat =</span> <span class="st">"identity"</span>)<span class="sc">+</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label=</span><span class="fu">paste</span>(<span class="fu">round</span>(Freq,<span class="dv">0</span>), <span class="st">"%"</span>, <span class="at">sep=</span><span class="st">""</span>)), </span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">position =</span> <span class="fu">position_stack</span>(), <span class="at">vjust=</span><span class="dv">1</span>, <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Red Social"</span>, <span class="at">y=</span><span class="st">"Porcentaje"</span>, <span class="at">fill=</span><span class="st">"Nivel de procastinación"</span>)<span class="sc">+</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#CD3333"</span>,<span class="st">"pink"</span>, <span class="st">"bisque"</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="semana12_teoria_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+<pre><code>
+  0   1 
+126 113 </code></pre>
 </div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

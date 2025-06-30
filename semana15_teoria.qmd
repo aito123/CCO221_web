@@ -1,0 +1,27 @@
+---
+title: "Clase teórica Semana 15"
+subtitle: "Repaso"
+author: "Marylia Cruz"
+date: "2025-06-09"
+format: html
+execute: 
+  echo: true
+  message: false
+df-print: paged
+code-annotations: hover
+---
+
+# Ejercicio de repaso
+
+```{r}
+library(rio)
+data=import("Book.csv")
+names(data)
+```
+
+
+
+
+
+
+

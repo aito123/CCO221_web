@@ -20,6 +20,8 @@ website:
             text: Semana 11
           - href: semana12_teoria.qmd
             text: Semana 12
+          - href: semana13_teoria.qmd
+            text: Semana 13
       - text: Clases prácticas
         menu: 
           - href: semana10.qmd

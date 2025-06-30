@@ -22,70 +22,87 @@ data=import("data/Data_ejemplo_comunica.xlsx")
 names(data)
 ```
 
+# Prueba T de student
 
 ```{r}
-tabla1=table(data$`Nivel de procastinacion`,data$RedSocial)
-print(tabla1)
+t.test(`Tiempo en redes sociales` ~ `Le gusta Leer`, data = data)
 ```
+
 
 ```{r}
-chisq.test(table(data$`Nivel de procastinacion`,data$RedSocial))$expected
-```
-
-```{r}
-chisq.test(tabla1)$expected
-```
-
-```{r}
-chisq.test(tabla1)
-```
-
-Hipotesis nula: No hay asociación entre el nivel de procastinacion y la red social más consumida. Dado que el p-valor es menor que 0.05, rechazo la Hipótesis nula.
-
-En conclusión a un 95% de nivel de confianza,si está asociados el nivel de procastinación con la red social más consumida.
-
-```{r}
-addmargins(prop.table(tabla1,2)*100)
-```
-
-```{r message=FALSE}
 library(dplyr)
+library(lsr)
+tabla=data%>%
+  group_by(`Le gusta Leer`)%>%
+  summarise(
+  promedio=mean(`Tiempo en redes sociales`),
+  linferior=ciMean(`Tiempo en redes sociales`)[1],
+    lsuperior=ciMean(`Tiempo en redes sociales`)[2]
+)
+
+tabla
 ```
+# Gráfico de prueba T
 
 ```{r}
-tabla2 = tabla1 %>%
-  prop.table(2)%>%
-  round(3)*100 
-tabla2
+library(ggplot2)
+ggplot(tabla, aes(x = `Le gusta Leer`, y = promedio)) +
+  geom_errorbar(aes(ymin = linferior, ymax = lsuperior), width = 0.2) +
+  labs(x = "Le gusta leer o no", y = "Media ± IC 95%") +
+  theme_minimal()
 ```
 
-```{r}
-tabla3=as.data.frame(tabla2)
-```
+# Prueba Anova 
 
 ```{r}
-library(forcats)
-tabla3$Var1 <- fct_relevel(tabla3$Var1, "Alto", "Medio", "Bajo")
+anova=aov(`Numero de Seguidores` ~`RedSocial`,data=data)
+
+summary(anova)
+```
+
+
+# Gráfico de prueba Anova
+
+```{r}
+library(dplyr)
+library(lsr)
+tabla=data%>%
+  group_by(`RedSocial`)%>%
+  summarise(
+  promedio=mean(`Numero de Seguidores`),
+  linferior=ciMean(`Numero de Seguidores`)[1],
+    lsuperior=ciMean(`Numero de Seguidores`)[2]
+  
+)
+
+tabla
 ```
 
 ```{r}
 library(ggplot2)
-ggplot(data=tabla3, aes(x=Var2,y=Freq,fill=Var1))+
-  geom_bar(position = "stack",stat = "identity")+
-  geom_text(aes(label=paste(round(Freq,0), "%", sep="")), 
-            position = position_stack(), vjust=1, size = 3)+
-  labs(x="Red Social", y="Porcentaje", fill="Nivel de procastinación")+
-  scale_fill_manual(values = c("#CD3333","pink", "bisque"))
+ggplot(tabla, aes(x = RedSocial, y = promedio)) +
+  geom_errorbar(aes(ymin = linferior, ymax = lsuperior), width = 0.2) +
+  labs(x = "Grupo", y = "Media ± IC 95%") +
+  theme_minimal()
 ```
 
 
+# Prueba de Correlación
 
+```{r}
+cor.test(data$`Numero de Seguidores`,data$`Numero de interacciones diarias`)
+```
 
+# Gráfico de dispersión
 
+```{r}
+library(ggplot2)
 
-
-
-
+ggplot(data, aes(x = `Numero de Seguidores`, y = `Numero de interacciones diarias`)) +
+  geom_point() +
+  labs(title = "Diagrama de dispersión", x = "Eje X", y = "Eje Y") +
+  theme_minimal()
+```
 
 
 

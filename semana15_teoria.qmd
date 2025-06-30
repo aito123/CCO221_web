@@ -14,14 +14,76 @@ code-annotations: hover
 # Ejercicio de repaso
 
 ```{r}
+
 library(rio)
-data=import("Book.csv")
-names(data)
+data2=import("youtube_data.csv")
 ```
 
 
+```{r}
+names(data2)
+```
 
 
+```{r}
+str(data2$view_count)
+str(data2$like_count)
+```
+
+# Existe una relación entre el número de vistas y el número de likes?
+
+```{r}
+cor.test(data2$view_count,data2$like_count)
+```
+
+# Gráfico de dispersión
+
+```{r}
+library(ggplot2)
+
+ggplot(data2, aes(x = view_count, y = like_count)) +
+  geom_point() +
+  labs(title = "Diagrama de dispersión", x = "Eje X", y = "Eje Y") +
+  theme_minimal()
+```
 
 
+# Calculamos la variable es_tech por si se repite un patrón en tags
 
+```{r}
+data2$es_tech=ifelse(grepl("'tech'",data2$tags),1,0)
+```
+
+```{r}
+table(data2$es_tech)
+```
+
+
+# Existe una diferente de medias del número de likes entre los videos que pertenecen al grupo tech o no ?
+
+```{r}
+t.test(like_count~es_tech,data=data2)
+```
+
+# Gráfico de barras de error
+
+```{r}
+library(lsr)
+library(dplyr)
+tabla=data2%>%
+  group_by(es_tech)%>%
+  summarise(
+  promedio=mean(like_count),
+  linferior=ciMean(like_count)[1],
+    lsuperior=ciMean(like_count)[2]
+)
+
+tabla
+```
+```{r}
+library(ggplot2)
+ggplot(tabla, aes(x = es_tech, y = promedio)) +
+  geom_errorbar(aes(ymin = linferior, ymax = lsuperior), width = 0.2) +
+  labs(x = "Si es tech o no", y = "Media ± IC 95%") +
+  theme_minimal()
+```

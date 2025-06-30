@@ -22,6 +22,10 @@ website:
             text: Semana 12
           - href: semana13_teoria.qmd
             text: Semana 13
+          - href: semana14_teoria.qmd
+            text: Semana 14
+          - href: semana15_teoria.qmd
+            text: Semana 15
       - text: Clases prácticas
         menu: 
           - href: semana10.qmd

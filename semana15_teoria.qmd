@@ -19,11 +19,9 @@ library(rio)
 data2=import("youtube_data.csv")
 ```
 
-
 ```{r}
 names(data2)
 ```
-
 
 ```{r}
 str(data2$view_count)
@@ -47,7 +45,6 @@ ggplot(data2, aes(x = view_count, y = like_count)) +
   theme_minimal()
 ```
 
-
 # Calculamos la variable es_tech por si se repite un patrón en tags
 
 ```{r}
@@ -57,7 +54,6 @@ data2$es_tech=ifelse(grepl("'tech'",data2$tags),1,0)
 ```{r}
 table(data2$es_tech)
 ```
-
 
 # Existe una diferente de medias del número de likes entre los videos que pertenecen al grupo tech o no ?
 
@@ -80,6 +76,7 @@ tabla=data2%>%
 
 tabla
 ```
+
 ```{r}
 library(ggplot2)
 ggplot(tabla, aes(x = es_tech, y = promedio)) +
